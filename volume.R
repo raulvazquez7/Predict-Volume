@@ -4,8 +4,8 @@ pacman::p_load("readr","caret","corrplot","dplyr","tidyverse","mlbench","ggplot2
 setwd("C:/Users/raul9/Documents/Volume1")
 
 #### read csv ####
-existing_set <- read.csv("./existingproductattributes2017.csv")
-new_set <- read.csv("./newproductattributes2017.csv")
+existing_set <- read.csv("C:/Users/raul9/Documents/Volume1/Predict Volume/existingproductattributes2017.csv.csv")
+new_set <- read.csv("C:/Users/raul9/Documents/Volume1/Predict Volume/newproductattributes2017.csv.csv")
 existing_set$BestSellersRank <- NULL
 
 summary(existing_set)
@@ -81,7 +81,7 @@ ggplot(training, aes(x=Volume))+geom_histogram()
 ggplot(testing, aes(x=Volume))+geom_histogram()  
 
     
-#### loop models ####
+#### compare models ####
 models<- list(
   "rf",
   "svmLinear",
@@ -111,43 +111,15 @@ compareMelt
 ggplot(compareMelt, aes(x=Model, y=Value))+
   geom_col()+facet_grid(Metric~., scales="free")
 
-#### playing ####
+#### final prediction ####
 modelknn<- train(Volume~.,data = training, method = "knn", trControl = control, tuneLength = 3, preProcess = c("center", "scale"))
 prediction <- predict(modelknn, new_set)
 
 prediction
 
-new_set$prediction <- prediction
+#### create columns and csv ####
+new_set$Volume <- prediction
 
-
-#### best perfomance ####
-trainedModel$knn$results
-                         
-#### error analysis ####
-testing$predictedVolume <- predictionKNN
-
-testing$error <- testing$Volume - testing$predictedVolume
-
-#### ggplot ####
-ggplot(testing, aes(x=predictedVolume, y=error))+
-  
-  geom_point()+geom_line()
-
-ggplot(testing, aes(x=predictedVolume, y=Volume))+
-  
-  geom_point()+geom_line()
-
-#### final prediction ####
-trainedModel$bestTune
-
-predictionKNN <- predict(trainedModel$modelInfo)
-
-
-finalPrediction <- predict(trainedModels$knn, new_set)
-finalPrediction
-plot(finalPrediction)
-
-new_set$Volume <- finalPrediction
 new_set$Sales <- new_set$Price*new_set$ProfitMargin*new_set$Volume
 
 write.csv(new_set, file = "C:/Users/raul9/Desktop/test.csv", row.names = TRUE)
