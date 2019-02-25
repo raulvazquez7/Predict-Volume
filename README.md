@@ -1,4 +1,4 @@
-# Product Profitability - Project Description
+# Predicting Profitability - Project Description
 
 ### Project Goal: The client has concerns about ongoing product sales of 4 specific product types in one of its stores (PCs, Laptops, Netbooks & Smartphones). So, we are required to analyze historical sales data and perform a sales prediction analysis to understand how these specific product types might impact sales across the enterprise.
 
@@ -24,6 +24,7 @@ Language used: R programming
 - Linear Model
 - Gradient Boosting Trees
 - Random Forest
+- Super Vector Machine
 ### 5. PREDICTION & ERROR ANALYSIS
 ### 6. VALIDATION
 Using a new df with the new products that might be added to the company's portfolio to study how product categories would affect the sales volume of these new products.
